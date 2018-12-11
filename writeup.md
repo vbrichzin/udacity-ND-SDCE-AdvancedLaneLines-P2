@@ -148,7 +148,9 @@ Here is an example of the final result of my pipeline executed on the test image
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Contrary to rubric point #6 I then put the entire pipeline into one function `process_image()` that calls the individual functions. The `process_image()` function is then called for every frame.
+
+Here's a [link to my video result][video1]
 
 ---
 
@@ -156,4 +158,9 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+I would say that my pipeline works reasonably well for the normal `project video`.
+In the `challende video` and even more the `harder challenge video` it shows that it still falls short for more complicated situations with different color of pavement and especially difficult lighting conditions and steeper radii of curvature where the sliding windows are all on the edge and trigger false detections.
+
+Also, I did not implement the `Line()` class that would keep track of the lane lines and make the searches faster if not the sliding windows are used, but the region search around the currently identified lane lines. This should definitely speed up the search which is right now clearly not real-time capable and takes quite long. Also, by use of filtering I could make the detection more robust and less jumpy.
+
+In the end I think I would need to start and think about a good measure to estimate the "quality" of the detection, maybe by the quality of the polynomial fit and the sanity checks and then use that measure to weight the next detection more or less heavily into the average. This approach should filter the result strongly and provide for a much less jumpy detection (also of the radius of curvature and offset position that shouldn't jump as much as they do from frame to frame).
