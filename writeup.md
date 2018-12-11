@@ -71,7 +71,7 @@ And here is the undistorted version of it:
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used the same combination of color and gradient thresholds to generate a binary image. I was able to re-use the code from the combined binary quiz in one of the lessons. In cell #4 of `P2.ipynb` the `binary_img()` function is using thresholds for the S-channel in the HLS color space and the x-gradient.  With the combination of these thresholds into one binary image the result was showing the lane lines quite well. Even though other object edges on cars and trees were visible as well, with the later windowing approach the lane lines can be well separated from the rest.
+I used the same combination of color and gradient thresholds to generate a binary image. I was able to re-use the code from the combined binary quiz in one of the lessons. In cell #4 of `P2.ipynb` the `binary_img()` function is using thresholds for the S-channel in the HLS color space, the L-channel for the x-gradient, and also the B-channel of the HSV color space.  But before transforming the image I se contrast correction to fight excessive darkness or brightness by using the `cv2.equalizeHist()` function in the YUV color space (as was suggested by the reviewer). With the combination of these thresholds into one binary image the result was showing the lane lines quite well. I then only remove some noise by doing a morphological transformation (as was also suggested by the reviewer) in using the `cv2.morphologyEx()` function with a (2,2) kernel. Even though other object edges on cars and trees were visible as well, with the later windowing approach the lane lines can be well separated from the rest.
 
 Here is a binary image (same image as for the undistorting in the rubric point before) thus created:
 
@@ -150,6 +150,13 @@ Contrary to rubric point #6 I then put the entire pipeline into one function `pr
 
 Here's a [link to my video result](./output_test_videos/output_project_video.mp4)
 
+With the improved binary image the detection is better. Since the lane still jumps in a later stage of the video I thought about adding a filter since on the highway I can make use of the fact that the ROC is changing only gradually.
+I made use a little bit of the `Line()` class to have a memory of previous polynomial parameters to have them change slower.
+
+Here is a [link to the project video result using a filter approach](./output_test_videos/output_project_filter_video.mp4)
+
+This approach works better and makes for a smoother outcome. In fact, it seems to improve the performance of the pipeline also a little bit in the challenge video, but in the harder challenge video it still fails, now also because the more rapid changes of the curvature in that harder challenge video call for a different approach.
+
 ---
 
 ### Discussion
@@ -159,6 +166,6 @@ Here's a [link to my video result](./output_test_videos/output_project_video.mp4
 I would say that my pipeline works reasonably well for the normal `project video`.
 In the `challende video` and even more the `harder challenge video` it shows that it still falls short for more complicated situations with different color of pavement and especially difficult lighting conditions and steeper radii of curvature where the sliding windows are all on the edge and trigger false detections.
 
-Also, I did not implement the `Line()` class that would keep track of the lane lines and make the searches faster if not the sliding windows are used, but the region search around the currently identified lane lines. This should definitely speed up the search which is right now clearly not real-time capable and takes quite long. Also, by use of filtering I could make the detection more robust and less jumpy.
+Also, I did not implement the `Line()` class in such a way that I would keep track of the lane lines and make the searches faster if not the sliding windows are used, but the region search around the currently identified lane lines. This should definitely speed up the search which is right now clearly not real-time capable and takes quite long. Also my filtering definitely could be improved.
 
 In the end I think I would need to start and think about a good measure to estimate the "quality" of the detection, maybe by the quality of the polynomial fit and the sanity checks and then use that measure to weight the next detection more or less heavily into the average. This approach should filter the result strongly and provide for a much less jumpy detection (also of the radius of curvature and offset position that shouldn't jump as much as they do from frame to frame).
