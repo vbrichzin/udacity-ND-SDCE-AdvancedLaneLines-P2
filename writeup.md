@@ -25,6 +25,7 @@ The goals / steps of this project were the following:
 [image10]: ./output_images/output_result_test5.jpg "Result"
 
 [video1]: ./output_test_videos/output_project_video.mp4 "Video"
+[video2]: ./output_test_videos/output_project_filter_video.mp4 "Video with filter"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -73,7 +74,8 @@ And here is the undistorted version of it:
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used the same combination of color and gradient thresholds to generate a binary image. I was able to re-use the code from the combined binary quiz in one of the lessons. In cell #4 of `P2.ipynb` the `binary_img()` function is using thresholds for the S-channel in the HLS color space and the x-gradient.  With the combination of these thresholds into one binary image the result was showing the lane lines quite well. Even though other object edges on cars and trees were visible as well, with the later windowing approach the lane lines can be well separated from the rest.
+I used the same combination of color and gradient thresholds to generate a binary image. I was able to re-use some of the code from the combined binary quiz in one of the lessons. In cell #4 of `P2.ipynb` the `binary_img()` function is using thresholds for the S-channel in the HLS color space and the the L-channel for the x-gradient and a threshold for the B-channel in the HSV color channel. All with the idea that the S-channel of HLS should help me identify the white lines, while the B-channel of HSV should help me identify the yellow lines. But before I do the color space transforms I use contrast correction to fight excessive darkness or brightness through the use of the `cv2.equalizeHist()` in the YUV color space (as was suggested by my reviewer).
+With the combination of these thresholds into one binary image the result was showing the lane lines quite well. I then only removed some noise through the use of the morphological transfer function `cv2.equalizeHist()`. Even though other object edges on cars and trees were visible as well, with the later windowing approach the lane lines can be well separated from the rest.
 
 Here is a binary image (same image as for the undistorting in the rubric point before) thus created:
 
@@ -151,6 +153,10 @@ Here is an example of the final result of my pipeline executed on the test image
 Contrary to rubric point #6 I then put the entire pipeline into one function `process_image()` that calls the individual functions. The `process_image()` function is then called for every frame.
 
 Here's a [link to my video result][video1]
+
+I also made use of a limited version of the class definition for a lane line to be able to filter to a certain degree. At least in the project video on the highway the change of curvature is pretty small, thus I let newly calculated values only contribute to a certain degree to the fitted lane. This helped to avoid jumpy changes and made it more steady. It worked well on the project video, and also the challenge video improved a little bit. Yet on the harder challenge video this approach was failing as there are bigger changes in curvature on the windy road.
+
+Here is a [link to my improved project video result with use of a filter][video2]
 
 ---
 
