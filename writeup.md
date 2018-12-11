@@ -24,8 +24,6 @@ The goals / steps of this project were the following:
 [image9]: ./output_images/output_binary_polynomial_with_cr_test5.jpg "Binary Polynomial with Curvature and Offset"
 [image10]: ./output_images/output_result_test5.jpg "Result"
 
-[video1]: ./output_test_videos/output_project_video.mp4 "Video"
-
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
 ### I will also consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -82,7 +80,7 @@ Here is a binary image (same image as for the undistorting in the rubric point b
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 The code for my perspective transform includes a function called `warp()`, which appears in cell #6 in `P2.ipynb`.  
-I hardcoded the `src` and `dst` points outside the `warp()` function and calculated the `M` and `Minv` perspective transformation matrice for later usage. The `warp()` function takes as inputs an image (`img`), as well as the undistortion coefficients, and returns a perspectively transformed image.  I chose the hardcode the source and destination points in the same manner as suggested in the writeup_template file. How this would lead to a roughly 30m long and 3.7m wide corridor in the transformed image made sense to me (also trying to plausibilize the length of 30m with the number of dashed lines and intermittences).
+I hardcoded the `src` and `dst` points outside the `warp()` function and calculated the `M` and `Minv` perspective transformation matrice for later usage. The `warp()` function takes as inputs an image, as well as the undistortion coefficients, and returns a perspectively transformed image.  I chose the hardcode the source and destination points in the same manner as suggested in the writeup_template file. How this would lead to a roughly 30m long and 3.7m wide corridor in the transformed image made sense to me (also trying to plausibilize the length of 30m with the number of dashed lines and intermittences).
 
 ```python
 src = np.float32(
@@ -150,7 +148,7 @@ Here is an example of the final result of my pipeline executed on the test image
 
 Contrary to rubric point #6 I then put the entire pipeline into one function `process_image()` that calls the individual functions. The `process_image()` function is then called for every frame.
 
-Here's a [link to my video result][video1]
+Here's a [link to my video result](./output_test_videos/output_project_video.mp4)
 
 ---
 
