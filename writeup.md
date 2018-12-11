@@ -1,4 +1,4 @@
-#Advanced Lane Finding Project
+# Advanced Lane Finding Project
 
 The goals / steps of this project were the following:
 
@@ -60,14 +60,23 @@ And here is the undistorted chessboard image:
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+I used the calibration parameters calculated in the cell before and calculated in cell #3 undistorted images of the original test images. Since the `cv2.undistort`function was giving back an image in BGR I also needed to swap the color channels with `cv2.split`and `cv2.merge`.
+
+Here is an original, distorted test image:
+
+![alt text][image3]
+
+And here is the undistorted version of it:
+
+![alt text][image4]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used the same combination of color and gradient thresholds to generate a binary image. I was able to re-use the code from the combined binary quiz in one of the lessons. In cell #4 of `P2.ipynb` the `binary_img` function is using thresholds for the S-channel in the HLS color space and the x-gradient.  With the combination of these thresholds into one binary image the result was showing the lane lines quite well. Even though other object edges on cars and trees were visible as well, with the later windowing approach the lane lines can be well separated from the rest.
 
-![alt text][image3]
+Here is a binary image (same image as for the undistorting in the rubric point before) thus created:
+
+![alt text][image5]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
