@@ -15,7 +15,7 @@ The goals / steps of this project were the following:
 
 [image1]: ./camera_cal/calibration2.jpg "Distorted"
 [image2]: ./camera_cal/undistort_calibration2.jpg "Undistorted"
-[image3]: ./test_images/test6.jpg "Road Distorted"
+[image3]: ./test_images/test5.jpg "Road Distorted"
 [image4]: ./output_images/output_undistorted_test5.jpg "Road Undistorted"
 [image5]: ./output_images/output_binary_test5.jpg "Binary"
 [image6]: ./output_images/output_orig_src_straight_lines1.jpg "Undistorted SRC"
